@@ -7,9 +7,13 @@ import org.jgrapht.graph.ListenableUndirectedWeightedGraph;
  */
 class CitiesGraph {
 
-    private final ListenableUndirectedWeightedGraph<String, DefaultWeightedEdge> graph = new ListenableUndirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+    private final ListenableUndirectedWeightedGraph<String, DefaultWeightedEdge> graph = new ListenableUndirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
     CitiesGraph() {
+    }
+
+    public ListenableUndirectedWeightedGraph<String, DefaultWeightedEdge> getGraph() {
+        return graph;
     }
 
     void addVertex(String city){

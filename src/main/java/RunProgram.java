@@ -28,8 +28,8 @@ public class RunProgram {
         citiesList.addEdge("Odense", "Vejle", 60);
         citiesList.addEdge("Vejle", "Aarhus", 190);
 
-
-        System.out.println(citiesList);
+        //System.out.println(citiesList.getGraph());
+        System.out.println(citiesList.getGraph());
 
     }
 }
