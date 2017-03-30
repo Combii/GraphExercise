@@ -43,7 +43,7 @@ public class JGraphAdapterDemo
     private static final Dimension DEFAULT_SIZE = new Dimension(530, 320);
 
     //
-    private JGraphModelAdapter<String, DefaultEdge> jgAdapter;
+    private JGraphModelAdapter<String, DefaultWeightedEdge> jgAdapter;
 
     /**
      * An alternative starting point for this demo, to also allow running this applet as an
@@ -71,11 +71,11 @@ public class JGraphAdapterDemo
     public void init()
     {
         // create a JGraphT graph
-        ListenableGraph<String, DefaultEdge> g =
-            new ListenableDirectedMultigraph<>(DefaultEdge.class);
+        CitiesGraph citiesList = new CitiesGraph();
+
 
         // create a visualization using JGraph, via an adapter
-        jgAdapter = new JGraphModelAdapter<>(g);
+        jgAdapter = new JGraphModelAdapter<>(citiesList.getGraph());
 
         JGraph jgraph = new JGraph(jgAdapter);
 
@@ -83,29 +83,27 @@ public class JGraphAdapterDemo
         getContentPane().add(jgraph);
         resize(DEFAULT_SIZE);
 
-        String v1 = "v1";
-        String v2 = "v2";
-        String v3 = "v3";
-        String v4 = "v4";
+        citiesList.addVertex("KBH");
+        citiesList.addVertex("Helsingør");
+        citiesList.addVertex("Slagelse");
+        citiesList.addVertex("Nyborg");
+        citiesList.addVertex("Odense");
+        citiesList.addVertex("Vejle");
+        citiesList.addVertex("Aarhus");
 
-        // add some sample data (graph manipulated via JGraphT)
-        g.addVertex(v1);
-        g.addVertex(v2);
-        g.addVertex(v3);
-        g.addVertex(v4);
 
-        g.addEdge(v1, v2);
-        g.addEdge(v2, v3);
-        g.addEdge(v3, v1);
-        g.addEdge(v4, v3);
+        citiesList.addEdge("KBH", "Helsingør", 120);
+        citiesList.addEdge("KBH", "Slagelse", 140);
+        citiesList.addEdge("KBH", "Odense", 260);
+        citiesList.addEdge("Helsingør", "Odense", 380);
+        citiesList.addEdge("Slagelse", "Nyborg", 90);
+        citiesList.addEdge("Slagelse", "Aarhus", 370);
+        citiesList.addEdge("Nyborg", "Odense", 30);
+        citiesList.addEdge("Nyborg", "Vejle", 90);
+        citiesList.addEdge("Nyborg", "Aarhus", 280);
+        citiesList.addEdge("Odense", "Vejle", 60);
+        citiesList.addEdge("Vejle", "Aarhus", 190);
 
-        // position vertices nicely within JGraph component
-        positionVertexAt(v1, 130, 40);
-        positionVertexAt(v2, 60, 200);
-        positionVertexAt(v3, 310, 230);
-        positionVertexAt(v4, 380, 70);
-
-        // that's all there is to it!...
     }
 
     private void adjustDisplaySettings(JGraph jg)
@@ -126,37 +124,7 @@ public class JGraphAdapterDemo
 
         jg.setBackground(c);
     }
-
-    @SuppressWarnings("unchecked")
-    private void positionVertexAt(Object vertex, int x, int y)
-    {
-        DefaultGraphCell cell = jgAdapter.getVertexCell(vertex);
-        AttributeMap attr = cell.getAttributes();
-        Rectangle2D bounds = GraphConstants.getBounds(attr);
-
-        Rectangle2D newBounds = new Rectangle2D.Double(x, y, bounds.getWidth(), bounds.getHeight());
-
-        GraphConstants.setBounds(attr, newBounds);
-
-        AttributeMap cellAttr = new AttributeMap();
-        cellAttr.put(cell, attr);
-        jgAdapter.edit(cellAttr, null, null, null);
-    }
-
-    /**
-     * a listenable directed multigraph that allows loops and parallel edges.
-     */
-    private static class ListenableDirectedMultigraph<V, E>
-        extends DefaultListenableGraph<V, E>
-        implements DirectedGraph<V, E>
-    {
-        private static final long serialVersionUID = 1L;
-
-        ListenableDirectedMultigraph(Class<E> edgeClass)
-        {
-            super(new DirectedMultigraph<>(edgeClass));
-        }
-    }
+    
 }
 
 // End JGraphAdapterDemo.java
