@@ -29,7 +29,7 @@ public class RunProgram {
         citiesList.addEdge("Vejle", "Aarhus", 190);
 
         //System.out.println(citiesList.getGraph());
-        System.out.println(citiesList.getGraph().getAllEdges("KBH", "Slagelse"));
+        System.out.println(citiesList.getGraph().edgesOf("KBH"));
 
     }
 }
